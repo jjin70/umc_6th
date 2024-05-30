@@ -5,6 +5,9 @@ import lombok.*;
 import jakarta.persistence.*;
 import umc.study.domain.common.BaseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -16,18 +19,14 @@ public class Store extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 30)
     private String name;
 
-    private Float totalScore;
-
-    @Column(length = 50)
     private String address;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "food_category_id")
-    private FoodCategory foodCategory;
+    private Float score;
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<Review> reviewList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
