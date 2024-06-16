@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.study.apiPayload.ApiResponse;
 import umc.study.converter.StoreConverter;
+import umc.study.domain.Mission;
 import umc.study.domain.Review;
 import umc.study.service.StoreService.StoreCommandService;
 import umc.study.validation.annotation.ExistMember;
@@ -27,5 +28,12 @@ public class StoreRestController {
                                                                             @ExistMember @RequestParam(name = "memberId") Long memberId){
         Review review = storeCommandService.createReview(memberId, storeId, request);
         return ApiResponse.onSuccess(StoreConverter.toCreateReviewResultDTO(review));
+    }
+
+    @PostMapping("/{storeId}/missions")
+    public ApiResponse<StoreResponseDTO.CreateMissionResultDTO> createMission(@RequestBody @Valid StoreRequestDTO.MissionDTO request,
+                                                                            @ExistStore @PathVariable(name = "storeId") Long storeId){
+        Mission mission = storeCommandService.createMission(storeId, request);
+        return ApiResponse.onSuccess(StoreConverter.toCreateMissionResultDTO(mission));
     }
 }
